@@ -4,6 +4,7 @@
 # 原理是记录图片中可能是裸露肌肤的区域数目和大小 然后根据一些经验判据决定是否可能是色情图片
 # 程序关键在于记录skin_region 即裸露区域的数目和大小  我采用并查集来实现  区别于实验楼的教程  时间复杂度未作比较
 # 用多进程对pics文件夹下所有图片进行处理  处理后结果输出到skins文件夹 文件名包含True/False 输出的图片是黑白图 显示皮肤区域
+# 效果不好 实际的判定算法要复杂的多
 import os
 import concurrent.futures
 from PIL import Image
@@ -82,9 +83,9 @@ class PornDetect(object):
             print('skin regions less than 3 or more than 60.')
         else:
             total_skin_pixels = 0
-            for size in self._regions_final.itervalues():
+            for size in self._regions_final.values():
                 total_skin_pixels += size
-            max_nude_size = max(self._regions_final.itervalues())
+            max_nude_size = max(self._regions_final.values())
             rectangle_size = (self._skin_x_max - self._skin_x_min) * (self._skin_y_max - self._skin_y_min)
             nude_percentage = float(total_skin_pixels) / rectangle_size * 100
             if nude_percentage < 25:

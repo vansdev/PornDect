@@ -6,4 +6,4 @@
  
 # Requirements
 
-  Pillow
+  -Pillow
